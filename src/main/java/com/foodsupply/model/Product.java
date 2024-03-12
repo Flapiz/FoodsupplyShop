@@ -6,6 +6,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
+import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -23,10 +24,11 @@ public class Product {
 	@Column(name = "product_id")
 	private Long id;
 	
-	@NotNull
+	@NotBlank(message = "Product Name must not be blank")
+	@Column(name = "name", unique = true)
 	private String name;
 	
-	@NotNull
+	@NotNull(message = "Price must not be Null")
 	private Double price;
 
 }

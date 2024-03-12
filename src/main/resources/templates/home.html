@@ -8,12 +8,25 @@
 <link rel="stylesheet" href="asset/style.css">
 </head>
 <body>
-	<div th:replace="~{header::header}">...</div>
-	<div class="bg">
-		<div class="centered">
-			<h1>Welcome to My Website</h1>
-			<div>
-				<a th:href="@{/product}" type="button" class="btn btn-info position-relative">Start Shopping</a>
+	<div th:replace="~{header::header}"></div>
+	<div class="background">
+		<div class="centered container-fluid text-center">
+			<div class="box">
+				<h1 style="text-align: center;">Welcome Food Supply Shop</h1>
+				<div class="img-box">
+					<div>
+						<img th:src="@{/asset/images/stake.jpg}" class="homepic"
+							alt="stake">
+					</div>
+					<div>
+						<img th:src="@{/asset/images/meatveg.jpg}" class="homepic"
+							alt="stake">
+					</div>
+				</div>
+				<div class="d-grid gap-2 col-6 mx-auto" style="margin-top: 20px;">
+					<a th:href="@{/product}" type="button"
+						class="btn btn-info position-relative">Start Shopping</a>
+				</div>
 			</div>
 		</div>
 	</div>

@@ -16,7 +16,7 @@ public class GlobalExceptionController {
     public ModelAndView exceptionHandler(Exception exception){
         String errorMsg = null;
         ModelAndView errorPage = new ModelAndView();
-        errorPage.setViewName("error");
+        errorPage.setViewName("error.html");
         if(exception.getMessage()!=null){
             errorMsg = exception.getMessage();
         }else if (exception.getCause()!=null){

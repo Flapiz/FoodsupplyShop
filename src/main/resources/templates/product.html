@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity6">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -12,6 +12,8 @@
 	<div class="product-container">
 		<p class="producthead" style="color: black;">Product List</p>
 		<li class="alert alert-success" role="alert" th:if="${!#strings.isEmpty(Addproduct)}" th:text="'Add '+ ${Addproduct} + ' ' + ${Addquantity} + ' Quantity'" />
+		<li class="alert alert-success" role="alert" th:if="${!#strings.isEmpty(editStatus)}" th:text="${editStatus}" />
+		<li class="alert alert-danger" role="alert" th:if="${!#strings.isEmpty(errormassege)}" th:text="${errormassege}" />
 		<table class="table table-striped-columns table-bordered ">
   			<thead>
     			<tr>
@@ -30,7 +32,8 @@
       							<input type="hidden" th:value="${product.name}" th:name="product_name">
       							<input type="hidden" th:value="${product.price}" th:name="product_price">
       							<input type="number" min="1" value="1" placeholder="1"  th:name="quantity">
-      							<button type="submit" class="btn btn-primary">Add Cart</button>
+      							<button type="submit"  class="btn btn-primary">Add Cart</button>
+      							<a th:href="@{'/edit/' + ${product.id}}" class="btn btn-info" sec:authorize="hasRole('ROLE_ADMIN')">Edit</a>
       						</form>
       					</td>
       					

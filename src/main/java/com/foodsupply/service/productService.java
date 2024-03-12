@@ -13,4 +13,7 @@ public interface productService {
 	
 	List<Product> getProduct();
 	
+	public String addProduct(Product product);
+	
+	public void editProduct(Long id, String productname, double productprice);
 }

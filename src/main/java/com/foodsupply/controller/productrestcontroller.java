@@ -1,23 +1,31 @@
 package com.foodsupply.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import org.springframework.web.bind.annotation.RequestParam;
 
 
 import com.foodsupply.model.CartItem;
+import com.foodsupply.model.Product;
 import com.foodsupply.model.ShoppingCart;
 import com.foodsupply.model.Users;
 import com.foodsupply.repository.UserRepository;
+import com.foodsupply.repository.productRepository;
+import com.foodsupply.service.productService;
 
 import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
 
 @Controller
 public class productrestcontroller {
@@ -26,6 +34,10 @@ public class productrestcontroller {
 	private ShoppingCart shoppingcart;
 	
 	@Autowired UserRepository userRepository;
+	
+	@Autowired productRepository productrepo;
+	
+	@Autowired productService productservice;
 
 	@PostMapping("/add/cart")
 	public String addCart(@RequestParam("product_id") Long product_id,
@@ -66,6 +78,31 @@ public class productrestcontroller {
 		shoppingcart.removeProduct(productId);
 		return "redirect:/cart";
 	}
+	
+	@GetMapping("/edit/{id}")
+	public String editProduct(Model model,@PathVariable("id") Long id){
+		Optional<Product> product = productrepo.findById(id);
+		model.addAttribute("product", product.get());
+		model.addAttribute("product_id", product.get().getId());
+		model.addAttribute("name", product.get().getName());
+		model.addAttribute("price", product.get().getPrice());
+		return "editproduct.html";
+		
+	}
+	
+	@PostMapping("edit/submit")
+	public String editSubmit(@Valid @ModelAttribute("product") Product editproduct,Errors errors) {
+		String EditStatus = null;
+		if (errors.hasErrors()) {
+			EditStatus = "Edit Product failed.";
+			return "redirect:/product?errormassge=" + EditStatus;
+		}else {
+			productservice.editProduct(editproduct.getId(), editproduct.getName(), editproduct.getPrice());
+			EditStatus = "Edit Product Success.";
+			return "redirect:/product?editsuccess=" + EditStatus;
+		}
+	}
+	
 }
 
 

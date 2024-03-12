@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.foodsupply.model.CartItem;
 import com.foodsupply.model.Product;
@@ -57,19 +58,29 @@ public class foodworldcontroller {
 	@RequestMapping("/product")
 	public String DisplayProduct(Model model,@RequestParam(value = "success", required = false) String success,
 			@RequestParam(value = "productAdded", required = false) String productAdded,
-			@RequestParam(value = "quantityAdded", required = false) String quantityAdded) {
+			@RequestParam(value = "quantityAdded", required = false) String quantityAdded,
+			@RequestParam(value = "editsuccess", required = false) String editsuccess,
+			@RequestParam(value = "errormassge", required = false) String errormassege) {
 		String addProduct = null;
 		String addQuantity = null;
+		String successedit = null;
+		String Errormassege = errormassege;
 		
 		List<Product> products = productservice.getProduct();
 		CartItem cart = new CartItem();
 		if(success != null){
 			addProduct = productAdded;
 			addQuantity = quantityAdded;
+		}if(editsuccess != null) {
+			successedit = editsuccess;
+		}if(errormassege != null) {
+			Errormassege = errormassege;
 		}
 		model.addAttribute("Addproduct", addProduct );
 		model.addAttribute("Addquantity", addQuantity );
+		model.addAttribute("editStatus", successedit);
 		model.addAttribute("products", products);
+		model.addAttribute("errormassege", Errormassege);
 		model.addAttribute("cart", cart);
 		return "product.html";
 	}
@@ -167,5 +178,22 @@ public class foodworldcontroller {
 		}
 	}
 	
+	@RequestMapping(value = "/addproduct", method = RequestMethod.GET)
+	public String addproduct(Model model,@RequestParam(value = "massege", required = false) String massege) {
+		model.addAttribute("product", new Product());
+		model.addAttribute("massege", massege);
+		return "addproduct.html";
+	}
+	
+	@PostMapping(value = "/add/product")
+	public String productadded(Model model,@Valid @ModelAttribute(value = "product") Product product,Errors errors) {
+		String productadded = null;
+		if (errors.hasErrors()) {
+			productadded = "Invalid Name or Price";
+			return "redirect:/addproduct?massege=" + productadded;
+		}
+		productadded = productservice.addProduct(product);
+		return "redirect:/addproduct?massege=" + productadded;
+	}
 	
 }
