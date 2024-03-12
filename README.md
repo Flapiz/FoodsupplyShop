@@ -1,4 +1,4 @@
-# Food Supply Shop - Final Project  
+# Food Supply Shop - CS50 Final Project  
 #### this project is a shopping web application for purchasing ingredients to cook a food. I made this project by used Java programming language integrate with Spring Boot framework and MySQL database for storage data that are used in web application. Users must register and add cash for purchasing products. Products have a variouse ingredients for cooking. There is role for administrator in web application to add products and edit products name and price in case products have changed.
 ## Components
 - HTML
