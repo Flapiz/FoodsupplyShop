@@ -30,6 +30,7 @@
     - Purchasing products
     - Log out
 ## Tables
+you can view how to create database and schema at **foodsupply_schema.sql** in resources folder.
 - Products
   - product_id
   - name
@@ -44,9 +45,29 @@
 - Roles
     - role_id
     - role_name
-## How To Register
-1. Click **Register** on bar manu.
-2. Fill **Username**.
-3. Fill **Password** and **confirm Password**.
-4. Fill **Email** and confirm.
-5. Click **Register button** for submit.
+## Configuration Application.properties for Database
+you can configured for your database by replace url, username and password
+``` properties
+spring.datasource.url = jdbc:mysql://localhost:3306/supplyfood # Replace your database URL
+spring.datasource.username = root # Replace your username for database
+spring.datasource.password = 04D12m97Y # Replace your password for database
+
+spring.jpa.properties.hibernate.dialect = org.hibernate.dialect.MySQLDialect
+spring.jpa.hibernate.ddl-auto = update # update schema if necessary
+
+spring.jpa.properties.javax.persistence.validation.mode = none
+
+```
+In case use other relational database. you can replace dependency MySQL driver to other driver.
+``` xml
+<dependency>
+    <groupId>com.mysql</groupId>
+    <artifactId>mysql-connector-j</artifactId>
+    <scope>runtime</scope>
+</dependency>
+```
+## Documentation
+- <https://getbootstrap.com/docs/5.0/getting-started/introduction>
+- <https://spring.io/projects/spring-boot>
+- <https://www.thymeleaf.org>
+- <https://www.w3schools.com/sql>
